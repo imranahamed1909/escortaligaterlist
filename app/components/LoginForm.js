@@ -26,7 +26,7 @@ function LoginForm({ adminId, posterId, setImage }) {
     };
     setImage(true);
     login(submitValues, formik);
-
+    formik.resetForm();
     console.log(submitValues);
   };
 
