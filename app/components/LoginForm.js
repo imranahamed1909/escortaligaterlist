@@ -4,6 +4,7 @@ import { site } from "../config/index";
 import useMockLogin from "../hooks/useMockLogin";
 
 function LoginForm({ adminId, posterId, setImage }) {
+  console.log(adminId, posterId);
   const initialvalues = {
     email: "",
     password: "",
