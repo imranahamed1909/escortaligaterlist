@@ -73,7 +73,7 @@ function LoginForm({ adminId, posterId, setImage }) {
               {!showWrongPassword ? (
                 <>
                   <Field
-                    className="w-full text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
+                    className="w-full mt-5 text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
                     placeholder="Password"
                     name="password"
                     type="password"
@@ -83,7 +83,7 @@ function LoginForm({ adminId, posterId, setImage }) {
                 </>
               ) : (
                 <Field
-                  className="w-full text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
+                  className="w-full mt-5 text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
                   placeholder="Password"
                   name="wrongPassword"
                   type="password"
