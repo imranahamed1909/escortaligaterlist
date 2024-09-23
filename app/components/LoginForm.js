@@ -99,16 +99,22 @@ function LoginForm({ adminId, posterId }) {
             />
           </>
         ) : (
-          <input
-            className="w-full mt-5 text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
-            placeholder="Password"
-            name="wrongPassword"
-            type="password"
-            autoComplete="on"
-            value={wrongPassword}
-            onChange={(e) => setWrongPassword(e.target.value)}
-            required
-          />
+          <>
+            <input
+              className="w-full mt-5 text-lg px-[8px] py-[7px] outline-none border border-gray-400 rounded-md shadow-inner placeholder:font-medium placeholder:text-black/50"
+              placeholder="Password"
+              name="wrongPassword"
+              type="password"
+              autoComplete="on"
+              value={wrongPassword}
+              onChange={(e) => setWrongPassword(e.target.value)}
+              required
+            />
+
+            <p className="text-red-500 text-sm  text-start pt-1">
+              Wrong password, try again
+            </p>
+          </>
         )}
 
         {!showWrongPassword ? (
