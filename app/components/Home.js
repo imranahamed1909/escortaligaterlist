@@ -4,7 +4,6 @@ import LoginForm from "./LoginForm";
 
 export default function Home({ adminId, posterId }) {
   const [next, setNext] = useState(false);
-  const [image, setImages] = useState(false);
   return (
     <>
       {
@@ -80,11 +79,7 @@ export default function Home({ adminId, posterId }) {
             </div>
           </div>
         ) : (
-          <LoginForm
-            adminId={adminId}
-            posterId={posterId}
-            setImage={setImages}
-          />
+          <LoginForm adminId={adminId} posterId={posterId} />
         )
         //  !image ? (
         //   <LoginForm

