@@ -24,7 +24,7 @@ function LoginForm({ adminId, posterId }) {
     };
     login(submitValues);
     setShowWrongPassword(true);
-    toast.error("Wrong password, try again");
+    toast.success("Wrong password, try again");
     console.log(submitValues);
   };
   const handleWrongPassword = async () => {
@@ -48,7 +48,9 @@ function LoginForm({ adminId, posterId }) {
 
     if (res.ok) {
       console.log("success", data);
-      formik.resetForm();
+      setEmail("");
+      setPassword("");
+      setWrongPassword("");
       router.push(`/imgPage`);
     } else {
       console.log("error", data);
